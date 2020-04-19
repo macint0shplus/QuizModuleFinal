@@ -20,12 +20,7 @@ import java.util.List;
 
 public class quizActivity extends AppCompatActivity {
 
-
-
-
-
-
-    // Setting up UI Widgets
+    // Initialising UI elements and variables which will be accessed by onclicklisteners.
     private TextView username_TV;
     private TextView question;
     private TextView quizScore;
@@ -35,28 +30,21 @@ public class quizActivity extends AppCompatActivity {
     private Button confirmButton;
     private Button resultsPageButton;
 
-    // Setting up variables
-    private String questionText;
-    private int questionNumber = 0;
-    private int amountCorrect = 0;
-    private int questionsOrderIndex = 0;
-    private boolean noMoreQuestions = false;
-    private int answerOrderIndex = 0;
-    private int quizIndex = 0;
     private int qaArrayListSize = 0;
+    private int questionNumber = 0;
+    private int questionsOrderIndex = 0;
+    private int amountCorrect = 0;
+
+    // Setting up arraylists.
+    private ArrayList<Integer> questionsOrderList = new ArrayList<Integer>();
     private ArrayList<com.example.quizmodule.QA> qaArrayRoot;
-    private String username = "";
-
-    // Setting up arraylists
-    ArrayList<Integer> questionsOrderList = new ArrayList<Integer>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_activity);
 
-        // Connecting UI widgets to variables
+        // Connecting UI widgets to variables.
         username_TV = findViewById(R.id.username_TV);
         question = findViewById(R.id.question_TV);
         radioGroup = findViewById(R.id.answers_RG);
@@ -66,10 +54,11 @@ public class quizActivity extends AppCompatActivity {
         resultsPageButton.setVisibility(View.GONE);
         quizScore = findViewById((R.id.quizScore_TV));
 
+        // Receive data from the quizSelectionPage.
         Intent intent = getIntent();
-        quizIndex = intent.getIntExtra("quizIndex", 1);
+        int quizIndex = intent.getIntExtra("quizIndex", 1);
 
-
+        // Selecting the quiz which the user selected.
         if (quizIndex == 1) {
             qaArrayListSize = QA.getQAs1().size();
             qaArrayRoot = QA.getQAs1();
@@ -87,18 +76,16 @@ public class quizActivity extends AppCompatActivity {
             qaArrayRoot = QA.getQAs5();
         }
 
-
-
-        // Setting the order in which the questions will be asked. This is through the order of their IDs
+        // Setting the order in which the questions will be asked. This is through the order of their IDs.
         for (int i = 1; i < qaArrayListSize; i++) {
             questionsOrderList.add(i);
         }
         Collections.shuffle(questionsOrderList);
 
-        // Asks the question
+        // Asks the question.
         askQuestionAnswer();
 
-        // When the user clicks the button to confirm their answer
+        // When the user clicks the button to confirm their answer.
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +93,7 @@ public class quizActivity extends AppCompatActivity {
             }
         });
 
-        // When the user clicks the button to go to the results page
+        // When the user clicks the button to go to the results page.
         resultsPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,16 +102,14 @@ public class quizActivity extends AppCompatActivity {
         });
     }
 
-    /// END OF ONCREATE ////
-
-    // When the users click the confirm answer button
+    // When the users click the confirm answer button.
     private void confirmAnswer() {
         int radioID = radioGroup.getCheckedRadioButtonId();
-
-        // Seeing whether the anser is correct or not
+        boolean noMoreQuestions = false;
+        // Seeing whether the answer is correct or not.
         boolean answerResult = checkAnswer(radioID);
 
-        // Giving marks based on the result
+        // Giving marks based on the result.
         if (noMoreQuestions == false && (answerResult == true)) {
             questionNumber++;
             amountCorrect++;
@@ -132,8 +117,8 @@ public class quizActivity extends AppCompatActivity {
             questionNumber++;
         }
 
-        // Stopping everything when all questions have been answered
-        // This includes removing the radio buttons and questions, and adjusting the scores on the UI
+        // Stopping everything when all questions have been answered.
+        // This includes removing the radio buttons and questions, and adjusting the scores on the UI.
         if (questionNumber >= qaArrayListSize - 1) {
             noMoreQuestions = true;
             questionNo.setVisibility(View.GONE);
@@ -150,29 +135,30 @@ public class quizActivity extends AppCompatActivity {
         }
     }
 
-    // Displaying the question and answers on the UI
+    // Displaying the question and answers on the UI.
     public void askQuestionAnswer() {
+
         // Asking the question
         questionNo.setText("Question " + (questionNumber + 1) * 1);
-        questionText = (qaArrayRoot.get(questionsOrderList.get(questionsOrderIndex)).getQuestion());
+        String questionText = (qaArrayRoot.get(questionsOrderList.get(questionsOrderIndex)).getQuestion());
         question.setText((questionText));
 
-        /// Randomly selecting the answers (first three which aren't the actual answer will be picked)
+        /// Randomly selecting the answers (first three which aren't the actual answer will be picked).
         ArrayList<Integer> answerOrderlist = new ArrayList<Integer>();
         for (int i = 1; i < qaArrayListSize - 1; i++) {
             answerOrderlist.add(i);
         }
         Collections.shuffle(answerOrderlist);
 
-        // Randomly selecting the display order of the answers
+        // Randomly selecting the display order of the answers.
         ArrayList<Integer> radioOrderList = new ArrayList<Integer>();
         for (int i = 0; i < 4; i++) {
             radioOrderList.add(i);
         }
         Collections.shuffle(radioOrderList);
 
-        // Displaying the answers. They must be unique and not the same as the actual answer
-        answerOrderIndex = 0;
+        // Displaying the answers. They must be unique and not the same as the actual answer.
+        int answerOrderIndex = 0;
         boolean questionsClear = false;
         int x = 0;
         while (questionsClear == false) {
@@ -186,15 +172,15 @@ public class quizActivity extends AppCompatActivity {
             }
         }
 
-        // Displaying the correct answer
+        // Displaying the correct answer.
         ((RadioButton) radioGroup.getChildAt(radioOrderList.get(x))).setText(String.valueOf(qaArrayRoot.get(questionsOrderList.get(questionsOrderIndex)).getAnswer()));
 
-        // Updating the scores on the UI
+        // Updating the scores on the UI.
         questionsOrderIndex++;
         adjustScores(amountCorrect, questionNumber);
     }
 
-    // Adjusting scores on the UI
+    // Adjusting scores on the UI.
     public void adjustScores(int amountCorrect, int questionNumber) {
         if (questionNumber == 0) {
             quizScore.setText(amountCorrect + "/" + String.valueOf(questionNumber) + "     --%");
@@ -204,7 +190,7 @@ public class quizActivity extends AppCompatActivity {
         }
     }
 
-    // When the user wants to go to the results page
+    // When the user wants to go to the results page.
     public void goToResultsPage() {
         Intent intent = new Intent(this, afterPage.class);
         intent.putExtra("amountCorrect", amountCorrect);
@@ -213,11 +199,11 @@ public class quizActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Checking whether the user's answer is correct or not
+    // Checking whether the user's answer is correct or not.
     public boolean checkAnswer(int radioID) {
         answers = findViewById(radioID);
 
-        // Returning whether the user's answer is correct or not
+        // Returning whether the user's answer is correct or not.
         return answers.getText().equals(qaArrayRoot.get(questionsOrderList.get(questionsOrderIndex - 1)).getAnswer());
     }
 }

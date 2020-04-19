@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class QuizScoresTableActivity extends AppCompatActivity {
+public class QuizLeaderboardActivity extends AppCompatActivity {
 
     private TextView first_TV;
     private TextView second_TV;

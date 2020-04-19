@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QuizScoresTableActivity"></activity>
+        <activity android:name=".QuizLeaderboardActivity"></activity>
         <activity android:name=".signupPage" />
         <activity android:name=".quizSelectionPage" />
         <activity android:name=".quizActivity" />

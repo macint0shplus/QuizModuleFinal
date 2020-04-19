@@ -6,13 +6,14 @@ import androidx.room.Query;
 
 import java.util.List;
 
+// DAO translator between UsersDatabase and related functions.
 @Dao
 public interface UserDaoUsers {
-    // To show name of current logged in user
+    // Query to show the details of a certain user.
     @Query("SELECT username, password FROM accountUsers WHERE username = :tempUsername")
     accountUsers getUsernameByString(String tempUsername);
 
-    // Add new user
+    // Insert to add new user.
     @Insert
     void insert(accountUsers user);
 }

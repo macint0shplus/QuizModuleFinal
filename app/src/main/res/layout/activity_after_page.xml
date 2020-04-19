@@ -10,7 +10,7 @@
         android:id="@+id/title_TV"
         android:layout_width="291dp"
         android:layout_height="46dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="32dp"
         android:gravity="center|top"
         android:text="Your Results"
         android:textColor="#000000"
@@ -18,13 +18,13 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_TV" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/quizName_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:gravity="center|top"
         android:text="Quiz X"
         android:textColor="#000000"
@@ -39,7 +39,7 @@
         android:id="@+id/quizMark_TV"
         android:layout_width="129dp"
         android:layout_height="31dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="55dp"
         android:layout_marginRight="55dp"
         android:gravity="center|right|top"
@@ -54,7 +54,7 @@
         android:id="@+id/mark_TV"
         android:layout_width="126dp"
         android:layout_height="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         android:gravity="center|center_horizontal|top|center_vertical"
@@ -97,7 +97,7 @@
         android:id="@+id/quizFeedback_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:gravity="center|top"
         android:text="Feedback"
         android:textColor="#000000"
@@ -118,18 +118,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leaderboardButton" />
-
-    <TextView
-        android:id="@+id/username_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="TextView"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/leaderboardButton"

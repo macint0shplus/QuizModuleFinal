@@ -97,7 +97,7 @@ public class afterPage extends AppCompatActivity {
 
     // Goes to leaderboard.
     public void toGoLeaderboard() {
-        Intent intent = new Intent(this, QuizScoresTableActivity.class);
+        Intent intent = new Intent(this, QuizLeaderboardActivity.class);
         startActivity(intent);
     }
 

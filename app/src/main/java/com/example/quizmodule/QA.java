@@ -2,11 +2,14 @@ package com.example.quizmodule;
 
 import java.util.ArrayList;
 
+// The class for QA - QuestionAnswer
+// This is essentially essentially the question bank
 public class QA {
     private int ID;
     private String question;
     private String answer;
 
+    // Class constructors
     public QA() {
     }
 
@@ -14,12 +17,13 @@ public class QA {
         this.ID = ID;
         this.question = question;
         this.answer = answer;
-
     }
 
+    // Getters and Setters
     public int getID() {
         return ID;
     }
+
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -27,6 +31,7 @@ public class QA {
     public String getQuestion() {
         return question;
     }
+
     public void setQuestion(String name) {
         this.question = question;
     }
@@ -34,12 +39,12 @@ public class QA {
     public String getAnswer() {
         return answer;
     }
+
     public void setAnswer(String answer) {
         this.answer = answer;
     }
 
-
-
+    // Question bank for quiz 'Introduction to Business Analysis'
     public static ArrayList<QA> getQAs1() {
         ArrayList<QA> QAs = new ArrayList<>();
         QAs.add(new QA(0, "QuizName", "Introduction to Business Analysis"));
@@ -55,6 +60,7 @@ public class QA {
         return QAs;
     }
 
+    // Question bank for quiz 'Project Management'
     public static ArrayList<QA> getQAs2() {
         ArrayList<QA> QAs = new ArrayList<>();
         QAs.add(new QA(0, "QuizName", "Project Management"));
@@ -78,6 +84,7 @@ public class QA {
         return QAs;
     }
 
+    // Question bank for quiz 'Requirements Gathering and Modelling'
     public static ArrayList<QA> getQAs3() {
         ArrayList<QA> QAs = new ArrayList<>();
         QAs.add(new QA(0, "QuizName", "Requirements Gathering and Modelling"));
@@ -93,7 +100,7 @@ public class QA {
         return QAs;
     }
 
-
+    // Question bank for quiz 'Design Thinking'
     public static ArrayList<QA> getQAs4() {
         ArrayList<QA> QAs = new ArrayList<>();
         QAs.add(new QA(0, "QuizName", "Design Thinking"));
@@ -115,7 +122,7 @@ public class QA {
         return QAs;
     }
 
-
+    // Question bank for quiz 'Scrum Framework'
     public static ArrayList<QA> getQAs5() {
         ArrayList<QA> QAs = new ArrayList<>();
         QAs.add(new QA(0, "QuizName", "Scrum Framework"));

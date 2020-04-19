@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuizScoresTableActivity">
+    tools:context=".QuizLeaderboardActivity">
 
     <TextView
         android:id="@+id/secondScore_TV"
@@ -191,7 +191,7 @@
         android:id="@+id/title_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:gravity="center|center_horizontal|center_vertical"
         android:text="Scores for XYZ"
         android:textColor="#000000"
