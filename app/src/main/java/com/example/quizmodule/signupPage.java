@@ -86,7 +86,7 @@ public class signupPage extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             UsersDatabase userDB = Room.databaseBuilder(getApplicationContext(), UsersDatabase.class, "users-database").build();
-            userDB.userDaoUsers().insert(new accountUsers(username, fullname, email, password));
+            userDB.userDaoUsers().insertUsers(new accountUsers(username, fullname, email, password));
             return null;
         }
     }

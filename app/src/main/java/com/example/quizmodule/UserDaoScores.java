@@ -10,6 +10,17 @@ import java.util.List;
 @Dao
 public interface UserDaoScores {
     // Query to ger the top 5 quiz scores for the leaderboard.
-    @Query("SELECT id, username,score FROM quizScores ORDER BY score LIMIT 5")
-    List<quizScores> getTopFiveQuizScores();
+    @Query("SELECT id, username,score FROM quizScores WHERE type =:name ORDER BY score LIMIT 5")
+    List<quizScores> getTopFiveQuizScores(String name);
+
+    // Insert to add new score.
+    @Insert
+    void insertScores(quizScores scores);
+
+  //  @Query ("DELETE FROM quizScores")
+ //   public void nuke();
+
+
 }
+
+//

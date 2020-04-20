@@ -1,5 +1,6 @@
 package com.example.quizmodule;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -7,21 +8,22 @@ import androidx.room.PrimaryKey;
 @Entity
 public class quizScores {
     // Id is primary key as its always unique.
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
+    @NonNull
     public int id;
     public String username;
     public int score;
+    public String type;
 
     // Constructors.
     public quizScores() {
     }
 
-    public quizScores(int id, String username, int score) {
-        this.id = id;
+    public quizScores(String username, int score, String type) {
+        //this.id = id;
         this.username = username;
         this.score = score;
+        this.type = type;
     }
-
-    //  private String quizType;
 }
 

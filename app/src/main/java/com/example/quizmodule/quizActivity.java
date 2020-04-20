@@ -34,10 +34,15 @@ public class quizActivity extends AppCompatActivity {
     private int questionNumber = 0;
     private int questionsOrderIndex = 0;
     private int amountCorrect = 0;
+    private String quizName = "";
+    private int quizIndex = 0;
+    private String currentUser = "";
 
     // Setting up arraylists.
     private ArrayList<Integer> questionsOrderList = new ArrayList<Integer>();
     private ArrayList<com.example.quizmodule.QA> qaArrayRoot;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,8 @@ public class quizActivity extends AppCompatActivity {
 
         // Receive data from the quizSelectionPage.
         Intent intent = getIntent();
-        int quizIndex = intent.getIntExtra("quizIndex", 1);
+        quizIndex = intent.getIntExtra("quizIndex", 1);
+        currentUser = intent.getStringExtra("username");
 
         // Selecting the quiz which the user selected.
         if (quizIndex == 1) {
@@ -75,6 +81,8 @@ public class quizActivity extends AppCompatActivity {
             qaArrayListSize = QA.getQAs5().size();
             qaArrayRoot = QA.getQAs5();
         }
+
+        quizName = qaArrayRoot.get(0).getAnswer();
 
         // Setting the order in which the questions will be asked. This is through the order of their IDs.
         for (int i = 1; i < qaArrayListSize; i++) {
@@ -195,7 +203,12 @@ public class quizActivity extends AppCompatActivity {
         Intent intent = new Intent(this, afterPage.class);
         intent.putExtra("amountCorrect", amountCorrect);
         intent.putExtra("questionNumber", questionNumber);
-        intent.putExtra("quizName", qaArrayRoot.get(0).getAnswer());
+        intent.putExtra("quizName", quizName);
+
+
+        new insertNewScore().execute();
+
+
         startActivity(intent);
     }
 
@@ -206,4 +219,19 @@ public class quizActivity extends AppCompatActivity {
         // Returning whether the user's answer is correct or not.
         return answers.getText().equals(qaArrayRoot.get(questionsOrderList.get(questionsOrderIndex - 1)).getAnswer());
     }
+
+
+
+    private class insertNewScore extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            ScoresDatabase scoresDB = Room.databaseBuilder(getApplicationContext(), ScoresDatabase.class, "scores-database").build();
+            scoresDB.userDaoScores().insertScores(new quizScores(currentUser, amountCorrect, quizName));
+            return null;
+        }
+    }
+
+
+
+
 }

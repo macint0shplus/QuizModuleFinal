@@ -3,6 +3,7 @@ package com.example.quizmodule;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class QuizLeaderboardActivity extends AppCompatActivity {
     private TextView fourthScore_TV;
     private TextView fifthScore_TV;
 
+    private String quizName = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,10 @@ public class QuizLeaderboardActivity extends AppCompatActivity {
         fourthScore_TV = findViewById(R.id.fourthScore_TV);
         fifthScore_TV = findViewById(R.id.fifthScore_TV);
 
+        Intent intent = getIntent();
+        quizName = intent.getStringExtra("quizName");
 
-     // new getTopFiveQuizScoresTask().execute();
+      new getTopFiveQuizScoresTask().execute();
 
 
 
@@ -65,13 +70,37 @@ public class QuizLeaderboardActivity extends AppCompatActivity {
         @Override
         protected List<quizScores> doInBackground(Void... voids) {
             ScoresDatabase scoreDB = Room.databaseBuilder(getApplicationContext(), ScoresDatabase.class, "scores-database").build();
-            return scoreDB.userDaoScores().getTopFiveQuizScores();
+            return scoreDB.userDaoScores().getTopFiveQuizScores(quizName);
         }
 
         @Override
         protected void onPostExecute(List<quizScores> quizScores) {
-           firstUser_TV.setText(quizScores.get(0).username);
-            // change the table things
+           if(quizScores.get(0) != null) {
+               firstUser_TV.setText(quizScores.get(0).username);
+               System.out.println("USERNAME USERNAME USERNAME :" + quizScores.get(0).username);
+               System.out.println("SCORE SCORE SCORE :" + quizScores.get(0).score);
+               firstScore_TV.setText(Integer.toString(quizScores.get(0).score));
+           }
+// just take the length LMAO
+            if(quizScores.get(1) != null) {
+                secondUser_TV.setText(quizScores.get(1).username);
+                secondScore_TV.setText(quizScores.get(1).score);
+            }
+
+            if(quizScores.get(2) != null) {
+                thirdUser_TV.setText(quizScores.get(2).username);
+                thirdScore_TV.setText(quizScores.get(2).score);
+            }
+
+            if(quizScores.get(3) != null) {
+                fourthUser_TV.setText(quizScores.get(3).username);
+                fourthScore_TV.setText(quizScores.get(4).score);
+            }
+
+            if(quizScores.get(4) != null) {
+                fifthUser_TV.setText(quizScores.get(4).username);
+                fifthScore_TV.setText(quizScores.get(4).score);
+            }
         }
     }
 // put in the scores table

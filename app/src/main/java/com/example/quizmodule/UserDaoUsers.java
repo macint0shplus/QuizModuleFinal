@@ -15,5 +15,5 @@ public interface UserDaoUsers {
 
     // Insert to add new user.
     @Insert
-    void insert(accountUsers user);
+    void insertUsers(accountUsers user);
 }

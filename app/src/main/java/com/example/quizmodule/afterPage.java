@@ -19,23 +19,20 @@ public class afterPage extends AppCompatActivity {
     private TextView mark;
     private TextView percentage;
     private TextView feedback;
+    private Button leaderboardButton;
+    private Button returnTitleButton;
+
+    // Initialising variables.
     private int amountCorrect = 0;
     private double percentCorrect = 0;
     private int questionNumber = 0;
     private String quizNameStr = "";
-    private Button leaderboardButton;
-    private Button returnTitleButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_page);
 
-        // Initialising variables.
-        int amountCorrect = 0;
-        double percentCorrect = 0;
-        int questionNumber = 0;
-        String quizNameStr = "";
 
         // Connecting views to variables
         username_TV = findViewById((R.id.username_TV));
@@ -78,6 +75,10 @@ public class afterPage extends AppCompatActivity {
             feedback.setText("Full Marks! \uD83D\uDE0E \n You have mastered this topic!");
         }
 
+
+        //
+
+
         // If the user wants to see the leaderboard.
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +99,8 @@ public class afterPage extends AppCompatActivity {
     // Goes to leaderboard.
     public void toGoLeaderboard() {
         Intent intent = new Intent(this, QuizLeaderboardActivity.class);
+        intent.putExtra("quizName", quizNameStr);
+        System.out.println("QUIZNAME  QUIZNAME  QUIZNAME  QUIZNAME  QUIZNAME  " + quizNameStr);
         startActivity(intent);
     }
 

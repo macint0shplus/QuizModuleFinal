@@ -10,22 +10,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Currency;
 import java.util.List;
 
 public class quizSelectionPage extends AppCompatActivity {
 
     // Initialising UI elements.
-    private TextView welcome_TV;
     private Button introductionQuiz_BT;
     private Button projectManagementQuiz_BT;
     private Button requirementsQuiz_BT;
     private Button designThinkingQuizButton;
     private Button agileScrumQuizButton;
 
+    private String currentUser = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_selection);
+
 
         // Connecting UI elements to variables.
         introductionQuiz_BT = findViewById(R.id.introductionQuiz_BT);
@@ -65,12 +68,18 @@ public class quizSelectionPage extends AppCompatActivity {
                 selectQuiz(5);
             }
         });
+
+        Intent intent = getIntent();
+        currentUser = intent.getStringExtra("username");
     }
 
-    // Go to respecting quiz.
+
+
+    // Go to respective quiz.
     public void selectQuiz(int quizIndex) {
         Intent intent = new Intent(this, quizActivity.class);
         intent.putExtra("quizIndex", quizIndex);
+        intent.putExtra("username", currentUser);
         startActivity(intent);
     }
 }
