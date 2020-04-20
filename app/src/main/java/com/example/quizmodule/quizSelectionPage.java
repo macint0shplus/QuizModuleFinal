@@ -29,7 +29,6 @@ public class quizSelectionPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_selection);
 
-
         // Connecting UI elements to variables.
         introductionQuiz_BT = findViewById(R.id.introductionQuiz_BT);
         projectManagementQuiz_BT = findViewById(R.id.projectManagementQuiz_BT);
@@ -69,17 +68,25 @@ public class quizSelectionPage extends AppCompatActivity {
             }
         });
 
+        // Receiving the username - if it exists.
         Intent intent = getIntent();
-        currentUser = intent.getStringExtra("username");
+        if (intent == null) {
+            // Nothing
+        } else {
+            currentUser = intent.getStringExtra("currentUser");
+        }
     }
 
-
+    // Disabling the back button (for some Android devices).
+    @Override
+    public void onBackPressed() {
+    }
 
     // Go to respective quiz.
     public void selectQuiz(int quizIndex) {
         Intent intent = new Intent(this, quizActivity.class);
         intent.putExtra("quizIndex", quizIndex);
-        intent.putExtra("username", currentUser);
+        intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }
 }

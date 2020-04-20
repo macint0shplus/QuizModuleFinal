@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Database;
 import androidx.room.Room;
 
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,7 +42,6 @@ public class quizActivity extends AppCompatActivity {
     private ArrayList<com.example.quizmodule.QA> qaArrayRoot;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +60,7 @@ public class quizActivity extends AppCompatActivity {
         // Receive data from the quizSelectionPage.
         Intent intent = getIntent();
         quizIndex = intent.getIntExtra("quizIndex", 1);
-        currentUser = intent.getStringExtra("username");
+        currentUser = intent.getStringExtra("currentUser");
 
         // Selecting the quiz which the user selected.
         if (quizIndex == 1) {
@@ -82,6 +80,7 @@ public class quizActivity extends AppCompatActivity {
             qaArrayRoot = QA.getQAs5();
         }
 
+        // Initialising the name of the quiz - for the intent.
         quizName = qaArrayRoot.get(0).getAnswer();
 
         // Setting the order in which the questions will be asked. This is through the order of their IDs.
@@ -108,6 +107,11 @@ public class quizActivity extends AppCompatActivity {
                 goToResultsPage();
             }
         });
+    }
+
+    // Disabling the back button (for some Android devices).
+    @Override
+    public void onBackPressed() {
     }
 
     // When the users click the confirm answer button.
@@ -151,7 +155,7 @@ public class quizActivity extends AppCompatActivity {
         String questionText = (qaArrayRoot.get(questionsOrderList.get(questionsOrderIndex)).getQuestion());
         question.setText((questionText));
 
-        /// Randomly selecting the answers (first three which aren't the actual answer will be picked).
+        // Randomly selecting the answers (first three which aren't the actual answer will be picked).
         ArrayList<Integer> answerOrderlist = new ArrayList<Integer>();
         for (int i = 1; i < qaArrayListSize - 1; i++) {
             answerOrderlist.add(i);
@@ -204,11 +208,10 @@ public class quizActivity extends AppCompatActivity {
         intent.putExtra("amountCorrect", amountCorrect);
         intent.putExtra("questionNumber", questionNumber);
         intent.putExtra("quizName", quizName);
+        intent.putExtra("currentUser", currentUser);
 
-
+        // Insert the new score to the leaderboard, then leave.
         new insertNewScore().execute();
-
-
         startActivity(intent);
     }
 
@@ -220,8 +223,7 @@ public class quizActivity extends AppCompatActivity {
         return answers.getText().equals(qaArrayRoot.get(questionsOrderList.get(questionsOrderIndex - 1)).getAnswer());
     }
 
-
-
+    // Inserting the new score to the leaderboard
     private class insertNewScore extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
@@ -230,8 +232,4 @@ public class quizActivity extends AppCompatActivity {
             return null;
         }
     }
-
-
-
-
 }

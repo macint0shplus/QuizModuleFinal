@@ -17,7 +17,6 @@ public class accountUsers {
 
     // Constructors since they are object. Additionally, there will be instances of the accountUsers Object
     public accountUsers() {
-
     }
 
     public accountUsers(String username, String fullName, String email, String password) {
@@ -26,5 +25,4 @@ public class accountUsers {
         this.email = email;
         this.password = password;
     }
-
 }

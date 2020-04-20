@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 tempUsername = userUsername_TV.getText().toString();
                 tempPassword = userPassword_TV.getText().toString();
                 new getUserDetailsTask().execute();
-
-
             }
         });
 
@@ -61,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
                 signup();
             }
         });
+    }
+
+    // Disabling the back button (for some Android devices).
+    @Override
+    public void onBackPressed() {
     }
 
     // An AsyncTask which queries a user (in the ROOM database) which has the same username as tempUsername (the username used to login).
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     // User is logged in and goes to quiz selection page.
     public void login() {
         Intent intent = new Intent(this, quizSelectionPage.class);
-        intent.putExtra("username", tempUsername);
+        intent.putExtra("currentUser", tempUsername);
         startActivity(intent);
     }
 }

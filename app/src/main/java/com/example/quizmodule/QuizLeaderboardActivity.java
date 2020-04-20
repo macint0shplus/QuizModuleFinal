@@ -6,12 +6,15 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class QuizLeaderboardActivity extends AppCompatActivity {
 
+    // Initalising UI elements and variables which will go through onclicklisteners.
     private TextView first_TV;
     private TextView second_TV;
     private TextView third_TV;
@@ -30,14 +33,19 @@ public class QuizLeaderboardActivity extends AppCompatActivity {
     private TextView fourthScore_TV;
     private TextView fifthScore_TV;
 
-    private String quizName = "";
+    private TextView quizName_TV;
+    private Button returnToSelectionButton;
 
+    private String quizName = "";
+    private String currentUser = "";
+    private int totalquestions = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_scores_table);
 
+        // Matching UI elements to variables.
         first_TV = findViewById(R.id.first_TV);
         second_TV = findViewById(R.id.second_TV);
         third_TV = findViewById(R.id.third_TV);
@@ -56,16 +64,34 @@ public class QuizLeaderboardActivity extends AppCompatActivity {
         fourthScore_TV = findViewById(R.id.fourthScore_TV);
         fifthScore_TV = findViewById(R.id.fifthScore_TV);
 
+        quizName_TV = findViewById(R.id.quizName_TV);
+        returnToSelectionButton = findViewById(R.id.returnToSelectionButton);
+
+        // Receiving information from the quiz.
         Intent intent = getIntent();
         quizName = intent.getStringExtra("quizName");
+        quizName_TV.setText(quizName);
+        currentUser = intent.getStringExtra("currentUser");
+        totalquestions = intent.getIntExtra("totalQuestions", 0);
 
-      new getTopFiveQuizScoresTask().execute();
+        // If the user wants to go back to the quiz selection page.
+        returnToSelectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backToQuizSelection();
+            }
+        });
 
-
-
-
+        // Get the top 5 quiz results.
+        new getTopFiveQuizScoresTask().execute();
     }
 
+    // Disabling the back button (for some Android devices).
+    @Override
+    public void onBackPressed() {
+    }
+
+    // An AsyncTask which queries the top 5 quis results, and their respective user (in the ROOM database).
     private class getTopFiveQuizScoresTask extends AsyncTask<Void, Void, List<quizScores>> {
         @Override
         protected List<quizScores> doInBackground(Void... voids) {
@@ -73,36 +99,40 @@ public class QuizLeaderboardActivity extends AppCompatActivity {
             return scoreDB.userDaoScores().getTopFiveQuizScores(quizName);
         }
 
+        // Updating the leaderboard.
         @Override
         protected void onPostExecute(List<quizScores> quizScores) {
-           if(quizScores.get(0) != null) {
-               firstUser_TV.setText(quizScores.get(0).username);
-               System.out.println("USERNAME USERNAME USERNAME :" + quizScores.get(0).username);
-               System.out.println("SCORE SCORE SCORE :" + quizScores.get(0).score);
-               firstScore_TV.setText(Integer.toString(quizScores.get(0).score));
-           }
-// just take the length LMAO
-            if(quizScores.get(1) != null) {
+            if (quizScores.size() >= 1) {
+                firstUser_TV.setText(quizScores.get(0).username);
+                firstScore_TV.setText(Integer.toString(quizScores.get(0).score) + "/" + Integer.toString(totalquestions));
+            }
+
+            if (quizScores.size() >= 2) {
                 secondUser_TV.setText(quizScores.get(1).username);
-                secondScore_TV.setText(quizScores.get(1).score);
+                secondScore_TV.setText(Integer.toString(quizScores.get(1).score) + "/" + Integer.toString(totalquestions));
             }
 
-            if(quizScores.get(2) != null) {
+            if (quizScores.size() >= 3) {
                 thirdUser_TV.setText(quizScores.get(2).username);
-                thirdScore_TV.setText(quizScores.get(2).score);
+                thirdScore_TV.setText(Integer.toString(quizScores.get(2).score) + "/" + Integer.toString(totalquestions));
             }
 
-            if(quizScores.get(3) != null) {
+            if (quizScores.size() >= 4) {
                 fourthUser_TV.setText(quizScores.get(3).username);
-                fourthScore_TV.setText(quizScores.get(4).score);
+                fourthScore_TV.setText(Integer.toString(quizScores.get(3).score) + "/" + Integer.toString(totalquestions));
             }
 
-            if(quizScores.get(4) != null) {
+            if (quizScores.size() >= 5) {
                 fifthUser_TV.setText(quizScores.get(4).username);
-                fifthScore_TV.setText(quizScores.get(4).score);
+                fifthScore_TV.setText(Integer.toString(quizScores.get(4).score) + "/" + Integer.toString(totalquestions));
             }
         }
     }
-// put in the scores table
 
+    // Go back to quiz selection page.
+    public void backToQuizSelection() {
+        Intent intent = new Intent(this, quizSelectionPage.class);
+        intent.putExtra("currentUser", currentUser);
+        startActivity(intent);
+    }
 }

@@ -27,12 +27,12 @@ public class afterPage extends AppCompatActivity {
     private double percentCorrect = 0;
     private int questionNumber = 0;
     private String quizNameStr = "";
+    private String currentUser = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_after_page);
-
 
         // Connecting views to variables
         username_TV = findViewById((R.id.username_TV));
@@ -51,6 +51,7 @@ public class afterPage extends AppCompatActivity {
         amountCorrect = bundle.getInt("amountCorrect", 0);
         questionNumber = bundle.getInt("questionNumber", 0);
         quizNameStr = bundle.getString("quizName");
+        currentUser = bundle.getString("currentUser");
 
         // Calculating the percentage of correct answers.
         percentCorrect = Math.round(((double) amountCorrect / (double) questionNumber * 100) * 10) / 10.0;
@@ -75,11 +76,7 @@ public class afterPage extends AppCompatActivity {
             feedback.setText("Full Marks! \uD83D\uDE0E \n You have mastered this topic!");
         }
 
-
-        //
-
-
-        // If the user wants to see the leaderboard.
+            // If the user wants to see the leaderboard.
         leaderboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,17 +93,24 @@ public class afterPage extends AppCompatActivity {
         });
     }
 
+    // Disabling the back button (for some Android devices).
+    @Override
+    public void onBackPressed() {
+    }
+
     // Goes to leaderboard.
     public void toGoLeaderboard() {
         Intent intent = new Intent(this, QuizLeaderboardActivity.class);
         intent.putExtra("quizName", quizNameStr);
-        System.out.println("QUIZNAME  QUIZNAME  QUIZNAME  QUIZNAME  QUIZNAME  " + quizNameStr);
+        intent.putExtra("currentUser", currentUser);
+        intent.putExtra("totalQuestions", questionNumber);
         startActivity(intent);
     }
 
     // Goes to title.
     public void returnTitle() {
         Intent intent = new Intent(this, quizSelectionPage.class);
+        intent.putExtra("currentUser", currentUser);
         startActivity(intent);
     }
 }

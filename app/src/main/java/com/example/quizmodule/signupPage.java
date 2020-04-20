@@ -54,6 +54,11 @@ public class signupPage extends AppCompatActivity {
         });
     }
 
+    // Disabling the back button (for some Android devices).
+    @Override
+    public void onBackPressed() {
+    }
+
     // User signing up.
     public void signUp() {
         fullname = userFullname_ET.getText().toString();
